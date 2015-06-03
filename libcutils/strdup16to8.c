@@ -26,7 +26,7 @@
  * Given a UTF-16 string, compute the length of the corresponding UTF-8
  * string in bytes.
  */
-extern size_t strnlen16to8(const char16_t* utf16Str, size_t len)
+extern size_t strnlen16to8(const uint16_t* utf16Str, size_t len)
 {
     size_t utf8Len = 0;
 
@@ -104,7 +104,7 @@ extern size_t strnlen16to8(const char16_t* utf16Str, size_t len)
  * Please note, a terminated \0 is always added, so your result will always
  * be "strlen16to8() + 1" bytes long.
  */
-extern char* strncpy16to8(char* utf8Str, const char16_t* utf16Str, size_t len)
+extern char* strncpy16to8(char* utf8Str, const uint16_t* utf16Str, size_t len)
 {
     char* utf8cur = utf8Str;
 
@@ -140,7 +140,7 @@ extern char* strncpy16to8(char* utf8Str, const char16_t* utf16Str, size_t len)
  * Convert a UTF-16 string to UTF-8.
  *
  */
-char * strndup16to8 (const char16_t* s, size_t n)
+char * strndup16to8 (const uint16_t* s, size_t n)
 {
     char*   ret;
     size_t  len;

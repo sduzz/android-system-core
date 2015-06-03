@@ -40,9 +40,9 @@
  * length of the UTF-16 string (which may contain embedded \0's)
  */
 
-extern char16_t * strdup8to16 (const char* s, size_t *out_len)
+extern uint16_t * strdup8to16 (const char* s, size_t *out_len)
 {
-    char16_t *ret;
+    uint16_t *ret;
     size_t len;
 
     if (s == NULL) return NULL;
@@ -50,11 +50,11 @@ extern char16_t * strdup8to16 (const char* s, size_t *out_len)
     len = strlen8to16(s);
 
     // fail on overflow
-    if (len && SIZE_MAX/len < sizeof(char16_t))
+    if (len && SIZE_MAX/len < sizeof(uint16_t))
         return NULL;
 
     // no plus-one here. UTF-16 strings are not null terminated
-    ret = (char16_t *) malloc (sizeof(char16_t) * len);
+    ret = (uint16_t *) malloc (sizeof(uint16_t) * len);
 
     return strcpy8to16 (ret, s, out_len);
 }
@@ -148,10 +148,10 @@ static inline uint32_t getUtf32FromUtf8(const char** pUtf8Ptr)
  * length of the UTF-16 string (which may contain embedded \0's)
  */
 
-extern char16_t * strcpy8to16 (char16_t *utf16Str, const char*utf8Str, 
+extern uint16_t * strcpy8to16 (uint16_t *utf16Str, const char*utf8Str, 
                                        size_t *out_len)
 {   
-    char16_t *dest = utf16Str;
+    uint16_t *dest = utf16Str;
 
     while (*utf8Str != '\0') {
         uint32_t ret;
@@ -159,7 +159,7 @@ extern char16_t * strcpy8to16 (char16_t *utf16Str, const char*utf8Str,
         ret = getUtf32FromUtf8(&utf8Str);
 
         if (ret <= 0xffff) {
-            *dest++ = (char16_t) ret;
+            *dest++ = (uint16_t) ret;
         } else if (ret <= UNICODE_UPPER_LIMIT)  {
             /* Create surrogate pairs */
             /* See http://en.wikipedia.org/wiki/UTF-16/UCS-2#Method_for_code_points_in_Plane_1.2C_Plane_2 */
@@ -182,12 +182,12 @@ extern char16_t * strcpy8to16 (char16_t *utf16Str, const char*utf8Str,
  * length of the UTF-16 string (which may contain embedded \0's)
  */
 
-extern char16_t * strcpylen8to16 (char16_t *utf16Str, const char*utf8Str,
+extern uint16_t * strcpylen8to16 (uint16_t *utf16Str, const char*utf8Str,
                                        int length, size_t *out_len)
 {
     /* TODO: Share more of this code with the method above. Only 2 lines changed. */
     
-    char16_t *dest = utf16Str;
+    uint16_t *dest = utf16Str;
 
     const char *end = utf8Str + length; /* This line */
     while (utf8Str < end) {             /* and this line changed. */
@@ -196,7 +196,7 @@ extern char16_t * strcpylen8to16 (char16_t *utf16Str, const char*utf8Str,
         ret = getUtf32FromUtf8(&utf8Str);
 
         if (ret <= 0xffff) {
-            *dest++ = (char16_t) ret;
+            *dest++ = (uint16_t) ret;
         } else if (ret <= UNICODE_UPPER_LIMIT)  {
             /* Create surrogate pairs */
             /* See http://en.wikipedia.org/wiki/UTF-16/UCS-2#Method_for_code_points_in_Plane_1.2C_Plane_2 */
